@@ -1,0 +1,1 @@
+Client [nume=null, prenume=null, adresaPostala=null, adresaEmail=null, username=null]
