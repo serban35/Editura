@@ -1,10 +1,9 @@
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.TextArea;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -12,11 +11,15 @@ import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
@@ -24,30 +27,32 @@ public class MainFrame {
 
 	private JFrame frame;
 	private JTextField txtSearch;
-	private TextArea textArea = new TextArea();
-	private String linie;
+	private DefaultListModel<Carte> model = new DefaultListModel<>();
+	private JList<Carte> list = new JList<>();
 	private Carte carte;
+	private CosCumparaturi cos = new CosCumparaturi();
 
 	public MainFrame() {
 		initialize();
 	}
 
 	public void populeazaLibrarie() {
+
 		try {
 			BufferedReader buf = new BufferedReader(
-					new FileReader("C:\\Users\\serba\\eclipse-workspace\\Editura\\src\\carti.txt"));
+					new FileReader("C:\\Users\\serba\\git\\repository\\Editura\\Editura\\src\\carti.txt"));
 			while (true) {
-				linie = buf.readLine();
+				String linie = buf.readLine();
 				if (linie == null) {
 					break;
 				} else {
 					String tablou[] = linie.split("; ");
-
 					carte = new Carte(tablou[0], tablou[1], tablou[2], tablou[3], tablou[4]);
-					textArea.append(carte.toString());
+					model.addElement(carte);
 
 				}
 			}
+			buf.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -68,21 +73,23 @@ public class MainFrame {
 		JPanel panel = new JPanel();
 		frame.getContentPane().add(panel);
 		panel.setLayout(new BorderLayout(0, 0));
-		textArea.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusGained(FocusEvent e) {
 
-			}
+		JScrollPane scrollPane = new JScrollPane();
+		panel.add(scrollPane, BorderLayout.CENTER);
+
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		list.getSelectionModel().addListSelectionListener(e -> {
+			carte = list.getSelectedValue();
 		});
 
-		textArea.setEditable(false);
-		textArea.setFont(new Font("Arial Black", Font.BOLD, 14));
-		populeazaLibrarie();
+		list.setModel(model);
+		scrollPane.setViewportView(list);
 
-		panel.add(textArea, BorderLayout.CENTER);
+		populeazaLibrarie();
 
 		JPanel panel_1 = new JPanel();
 		frame.getContentPane().add(panel_1);
+
 		panel_1.setLayout(new GridLayout(6, 1, 0, 0));
 
 		JPanel panel_3 = new JPanel();
@@ -100,16 +107,12 @@ public class MainFrame {
 		JRadioButton rdbtnNewRadioButton = new JRadioButton("Nume Autor");
 		panel_3.add(rdbtnNewRadioButton);
 
-		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("Nume Carte");
+		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("Titlu Carte");
 		panel_3.add(rdbtnNewRadioButton_1);
-
-		JRadioButton rdbtnNewRadioButton_2 = new JRadioButton("Cod");
-		panel_3.add(rdbtnNewRadioButton_2);
 
 		ButtonGroup search = new ButtonGroup();
 		search.add(rdbtnNewRadioButton);
 		search.add(rdbtnNewRadioButton_1);
-		search.add(rdbtnNewRadioButton_2);
 
 		Border searchBorder = BorderFactory.createTitledBorder("Criterii Cautare");
 		panel_3.setBorder(searchBorder);
@@ -128,17 +131,41 @@ public class MainFrame {
 		JButton btnNewButton_1 = new JButton("Adauga Cos");
 		panel_2.add(btnNewButton_1);
 
-		JButton btnNewButton_5 = new JButton("Detalii");
+		JButton btnNewButton_5 = new JButton("Detalii Carte");
 		panel_2.add(btnNewButton_5);
+		btnNewButton_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				try {
+					new Detalii(carte, cos);
+
+				} catch (Exception f) {
+					f.printStackTrace();
+				}
+
+			}
+
+		});
 
 		JPanel panel_6 = new JPanel();
 		panel_1.add(panel_6);
 
-		JButton btnNewButton_2 = new JButton("Cos Cumparaturi");
-		panel_6.add(btnNewButton_2);
-
 		JButton btnNewButton_3 = new JButton("Finalizare Comanda");
 		panel_6.add(btnNewButton_3);
+
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				try {
+					new Cos(cos);
+
+				} catch (Exception f) {
+					f.printStackTrace();
+				}
+
+			}
+
+		});
 
 		JPanel panel_7 = new JPanel();
 		panel_1.add(panel_7);

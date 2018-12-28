@@ -26,4 +26,24 @@ public class Carte {
 		return "Titlu: " + titlu + " Autor: " + numeAutor + "\n";
 	}
 
+	public String getNumeAutor() {
+		return numeAutor;
+	}
+
+	public String getTitlu() {
+		return titlu;
+	}
+
+	public String getAnulAparitiei() {
+		return anulAparitiei;
+	}
+
+	public void setAnulAparitiei(String anulAparitiei) {
+		this.anulAparitiei = anulAparitiei;
+	}
+
+	public String getNrPag() {
+		return nrPag;
+	}
+
 }

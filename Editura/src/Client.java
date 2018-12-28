@@ -1,3 +1,7 @@
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Client {
 	private String nume;
@@ -58,6 +62,23 @@ public class Client {
 	public String toString() {
 		return cod + " nume=" + nume + ", prenume=" + prenume + ", adresaPostala=" + adresaPostala + ", adresaEmail="
 				+ adresaEmail + ", username=" + username + ", parola=" + parola + ", nrTel=" + nrTel;
+	}
+
+	public void salveazaListaClienti(Client c) {
+
+		File file = new File("C:\\Users\\serba\\git\\repository\\Editura\\Editura\\src\\clienti.txt");
+		try {
+			FileWriter fileWriter = new FileWriter(file, true);
+			BufferedWriter bufferFileWriter = new BufferedWriter(fileWriter);
+			fileWriter.append(c.toString() + "\n");
+			bufferFileWriter.close();
+		} catch (IOException e) {
+
+			e.printStackTrace();
+			System.out.println("An I/O Error Occurred");
+
+		}
+
 	}
 
 }

@@ -18,6 +18,7 @@ public class CosCumparaturi {
 			Carte tmp = this.lista.get(i);
 			tmp.toString();
 		}
+		System.out.println("\n Pret Total:" + pretTotal + " RON");
 	}
 
 }
