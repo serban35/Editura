@@ -66,7 +66,7 @@ public class Client {
 
 	public void salveazaListaClienti(Client c) {
 
-		File file = new File("C:\\Users\\serba\\git\\repository\\Editura\\Editura\\src\\clienti.txt");
+		File file = new File("txt\\clienti.txt");
 		try {
 			FileWriter fileWriter = new FileWriter(file, true);
 			BufferedWriter bufferFileWriter = new BufferedWriter(fileWriter);

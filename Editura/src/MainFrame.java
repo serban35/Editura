@@ -39,8 +39,7 @@ public class MainFrame {
 	public void populeazaLibrarie() {
 
 		try {
-			BufferedReader buf = new BufferedReader(
-					new FileReader("C:\\Users\\serba\\git\\repository\\Editura\\Editura\\src\\carti.txt"));
+			BufferedReader buf = new BufferedReader(new FileReader("txt\\carti.txt"));
 			while (true) {
 				String linie = buf.readLine();
 				if (linie == null) {
@@ -54,10 +53,8 @@ public class MainFrame {
 			}
 			buf.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -130,6 +127,13 @@ public class MainFrame {
 
 		JButton btnNewButton_1 = new JButton("Adauga Cos");
 		panel_2.add(btnNewButton_1);
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cos.adaugaCarte(carte);
+
+			}
+
+		});
 
 		JButton btnNewButton_5 = new JButton("Detalii Carte");
 		panel_2.add(btnNewButton_5);
