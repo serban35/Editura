@@ -1,6 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.LayoutManager;
 import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,19 +10,15 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
-import javax.swing.border.Border;
 
 public class MainFrame {
 
@@ -32,8 +29,15 @@ public class MainFrame {
 	private Carte carte;
 	private CosCumparaturi cos = new CosCumparaturi();
 
-	public MainFrame() {
-		initialize();
+	public void adaugaPanou() {
+		JPanel panel = new JPanel();
+		frame.getContentPane().add(panel);
+	}
+
+	public void adaugaPanou(LayoutManager layout) {
+		JPanel panel = new JPanel();
+		frame.getContentPane().add(panel);
+		panel.setLayout(layout);
 	}
 
 	public void populeazaLibrarie() {
@@ -46,7 +50,7 @@ public class MainFrame {
 					break;
 				} else {
 					String tablou[] = linie.split("; ");
-					carte = new Carte(tablou[0], tablou[1], tablou[2], tablou[3], tablou[4]);
+					carte = new Carte(tablou[0], tablou[1], tablou[2], tablou[3], tablou[4], tablou[5]);
 					model.addElement(carte);
 
 				}
@@ -66,7 +70,7 @@ public class MainFrame {
 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new GridLayout(0, 2, 0, 2));
-
+		// adaugaPanou(new BorderLayout(0, 0));
 		JPanel panel = new JPanel();
 		frame.getContentPane().add(panel);
 		panel.setLayout(new BorderLayout(0, 0));
@@ -100,27 +104,27 @@ public class MainFrame {
 		txtSearch.setText("Cautare");
 		panel_3.add(txtSearch);
 		txtSearch.setColumns(35);
+//
+//		JRadioButton rdbtnNewRadioButton = new JRadioButton("Nume Autor");
+//		panel_3.add(rdbtnNewRadioButton);
+//
+//		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("Titlu Carte");
+//		panel_3.add(rdbtnNewRadioButton_1);
 
-		JRadioButton rdbtnNewRadioButton = new JRadioButton("Nume Autor");
-		panel_3.add(rdbtnNewRadioButton);
+//		ButtonGroup search = new ButtonGroup();
+//		search.add(rdbtnNewRadioButton);
+//		search.add(rdbtnNewRadioButton_1);
 
-		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("Titlu Carte");
-		panel_3.add(rdbtnNewRadioButton_1);
-
-		ButtonGroup search = new ButtonGroup();
-		search.add(rdbtnNewRadioButton);
-		search.add(rdbtnNewRadioButton_1);
-
-		Border searchBorder = BorderFactory.createTitledBorder("Criterii Cautare");
-		panel_3.setBorder(searchBorder);
+//		Border searchBorder = BorderFactory.createTitledBorder("Criterii Cautare");
+//		panel_3.setBorder(searchBorder);
 
 		JPanel panel_4 = new JPanel();
 		FlowLayout flowLayout_1 = (FlowLayout) panel_4.getLayout();
 		flowLayout_1.setAlignOnBaseline(true);
 		panel_1.add(panel_4);
 
-		JButton btnNewButton = new JButton("Cauta");
-		panel_4.add(btnNewButton);
+//		JButton btnNewButton = new JButton("Cauta");
+//		panel_4.add(btnNewButton);
 
 		JPanel panel_2 = new JPanel();
 		panel_1.add(panel_2);
@@ -141,7 +145,7 @@ public class MainFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				try {
-					new Detalii(carte, cos);
+					new Detalii(carte);
 
 				} catch (Exception f) {
 					f.printStackTrace();
@@ -186,6 +190,10 @@ public class MainFrame {
 		JButton btnNewButton_4 = new JButton("Adauga Recenzie");
 		panel_5.add(btnNewButton_4);
 		frame.setVisible(true);
+	}
+
+	public MainFrame(Client client) {
+		initialize();
 	}
 
 }
