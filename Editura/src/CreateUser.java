@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -8,7 +9,6 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
 public class CreateUser extends JDialog {
 
@@ -25,12 +25,15 @@ public class CreateUser extends JDialog {
 
 	public void createElement(JTextField textField, String text) {
 		JPanel panel = new JPanel();
-		add(panel);
+		panel.setBackground(new Color(34, 34, 51));
+
+		getContentPane().add(panel);
 
 		panel.setLayout(new FlowLayout(FlowLayout.TRAILING, 5, 5));
 
 		JLabel lblNewLabel = new JLabel(text);
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setForeground(new Color(170, 204, 255));
+		// lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		panel.add(lblNewLabel);
 		textField.setToolTipText(text);
 		panel.add(textField);
@@ -39,13 +42,34 @@ public class CreateUser extends JDialog {
 	}
 
 	public void creazaClient() {
-		this.nume = txtNume.getText();
-		this.prenume = txtPrenume.getText();
-		this.adrLiv = txtAdresaLivrare.getText();
-		this.email = txtEmail.getText();
+		if (txtNume.getText().isEmpty()) {
+			this.nume = "none";
+		} else {
+			this.nume = txtNume.getText();
+		}
+
+		if (txtPrenume.getText().isEmpty()) {
+			this.prenume = "none";
+		} else {
+			this.prenume = txtPrenume.getText();
+		}
+		if (txtAdresaLivrare.getText().isEmpty()) {
+			this.adrLiv = "none";
+		} else {
+			this.adrLiv = txtAdresaLivrare.getText();
+		}
+		if (txtEmail.getText().isEmpty()) {
+			this.email = "none";
+		} else {
+			this.email = txtEmail.getText();
+		}
 		this.user = txtUsername.getText();
 		this.pass = txtPassword.getText();
-		this.nrTel = txtNrTelefon.getText();
+		if (txtNrTelefon.getText().isEmpty()) {
+			this.nrTel = "none";
+		} else {
+			this.nrTel = txtNrTelefon.getText();
+		}
 		this.client = new Client(nume, prenume, adrLiv, email, user, pass, nrTel);
 		client.salveazaListaClienti(client);
 
@@ -55,7 +79,7 @@ public class CreateUser extends JDialog {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
 		setBounds(100, 100, 400, 400);
-		setLayout(new GridLayout(8, 1, 0, 0));
+		getContentPane().setLayout(new GridLayout(8, 1, 0, 0));
 
 		createElement(txtUsername, "username");
 		createElement(txtPassword, "parola");
@@ -66,6 +90,8 @@ public class CreateUser extends JDialog {
 		createElement(txtNrTelefon, "nr telefon");
 
 		JPanel panel = new JPanel();
+		panel.setBackground(new Color(34, 34, 51));
+		panel.setForeground(new Color(170, 204, 255));
 		getContentPane().add(panel);
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		JButton btnNewButton = new JButton("Create User");

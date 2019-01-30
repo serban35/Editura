@@ -24,7 +24,7 @@ public class Carte {
 
 	@Override
 	public String toString() {
-		return "Titlu: " + titlu + " Autor: " + numeAutor + "\n";
+		return "Titlu:   " + titlu + "     Autor: " + numeAutor + "       Pret: " + pret + "\n";
 	}
 
 	public String getNumeAutor() {
@@ -37,10 +37,6 @@ public class Carte {
 
 	public String getAnulAparitiei() {
 		return anulAparitiei;
-	}
-
-	public void setAnulAparitiei(String anulAparitiei) {
-		this.anulAparitiei = anulAparitiei;
 	}
 
 	public String getNrPag() {

@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.LayoutManager;
@@ -9,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -17,27 +19,74 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 
 public class MainFrame {
 
 	private JFrame frame;
-	private JTextField txtSearch;
-	private DefaultListModel<Carte> model = new DefaultListModel<>();
-	private JList<Carte> list = new JList<>();
+	private JTextField txtSearch = new JTextField();
+	private DefaultListModel<String> model = new DefaultListModel<>();
+	private JList<String> list = new JList<>(model);
 	private Carte carte;
 	private CosCumparaturi cos = new CosCumparaturi();
+	private ArrayList<String> nume = new ArrayList<String>();
+	final private ArrayList<Carte> carti = new ArrayList<Carte>();
+	private int nr;
+
+	public void setNR() {
+
+		list.getSelectionModel().addListSelectionListener(f -> {
+			nr = list.getSelectedIndex();
+		});
+	}
+
+	public void setColor(JPanel panel) {
+		panel.setBackground(new Color(34, 34, 51));
+		panel.setForeground(new Color(170, 204, 255));
+	}
+
+	public void setColor(JButton buton) {
+		buton.setBackground(new Color(255, 255, 100));
+	}
 
 	public void adaugaPanou() {
 		JPanel panel = new JPanel();
 		frame.getContentPane().add(panel);
+		panel.setBackground(new Color(34, 34, 51));
+		panel.setForeground(new Color(170, 204, 255));
 	}
 
 	public void adaugaPanou(LayoutManager layout) {
 		JPanel panel = new JPanel();
 		frame.getContentPane().add(panel);
 		panel.setLayout(layout);
+		panel.setBackground(new Color(34, 34, 51));
+		panel.setForeground(new Color(170, 204, 255));
+
+	}
+
+	public void filterModel(DefaultListModel<String> model, String filter) {
+		for (String s : nume) {
+			if (!s.startsWith(filter)) {
+				if (model.contains(s)) {
+					model.removeElement(s);
+				}
+			} else {
+				if (!model.contains(s)) {
+					model.addElement(s);
+				}
+			}
+		}
+	}
+
+	public Carte selected(int nr) {
+		System.out.println(nr);
+		for (Carte tmp : carti) {
+			if (carti.indexOf(tmp) == nr) {
+				return tmp;
+			}
+		}
+		return null;
 	}
 
 	public void populeazaLibrarie() {
@@ -51,17 +100,19 @@ public class MainFrame {
 				} else {
 					String tablou[] = linie.split("; ");
 					carte = new Carte(tablou[0], tablou[1], tablou[2], tablou[3], tablou[4], tablou[5]);
-					model.addElement(carte);
+					carti.add(carte);
+					model.addElement(carte.toString());
+					nume.add(carte.toString());
 
 				}
 			}
+
 			buf.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	private void initialize() {
@@ -70,7 +121,7 @@ public class MainFrame {
 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new GridLayout(0, 2, 0, 2));
-		// adaugaPanou(new BorderLayout(0, 0));
+
 		JPanel panel = new JPanel();
 		frame.getContentPane().add(panel);
 		panel.setLayout(new BorderLayout(0, 0));
@@ -78,15 +129,11 @@ public class MainFrame {
 		JScrollPane scrollPane = new JScrollPane();
 		panel.add(scrollPane, BorderLayout.CENTER);
 
-		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		list.getSelectionModel().addListSelectionListener(e -> {
-			carte = list.getSelectedValue();
-		});
-
 		list.setModel(model);
 		scrollPane.setViewportView(list);
 
-		populeazaLibrarie();
+		list.setForeground(new Color(170, 204, 255));
+		list.setBackground(new Color(34, 34, 51));
 
 		JPanel panel_1 = new JPanel();
 		frame.getContentPane().add(panel_1);
@@ -100,10 +147,17 @@ public class MainFrame {
 		panel_1.add(panel_3);
 
 		txtSearch = new JTextField();
+
 		txtSearch.setHorizontalAlignment(SwingConstants.CENTER);
 		txtSearch.setText("Cautare");
 		panel_3.add(txtSearch);
 		txtSearch.setColumns(35);
+
+		setNR();
+
+		populeazaLibrarie();
+		// filterModel(model,txtSearch.getText());
+
 //
 //		JRadioButton rdbtnNewRadioButton = new JRadioButton("Nume Autor");
 //		panel_3.add(rdbtnNewRadioButton);
@@ -123,29 +177,39 @@ public class MainFrame {
 		flowLayout_1.setAlignOnBaseline(true);
 		panel_1.add(panel_4);
 
-//		JButton btnNewButton = new JButton("Cauta");
-//		panel_4.add(btnNewButton);
-
-		JPanel panel_2 = new JPanel();
-		panel_1.add(panel_2);
-
-		JButton btnNewButton_1 = new JButton("Adauga Cos");
-		panel_2.add(btnNewButton_1);
-		btnNewButton_1.addActionListener(new ActionListener() {
+		JButton btnNewButton = new JButton("Cauta");
+		btnNewButton.setBackground(new Color(255, 255, 100));
+		panel_4.add(btnNewButton);
+		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cos.adaugaCarte(carte);
+				txtSearch.selectAll();
+				filterModel(model, txtSearch.getText());
 
 			}
 
 		});
 
+		JPanel panel_2 = new JPanel();
+		panel_1.add(panel_2);
+
+		JButton btnNewButton_1 = new JButton("Adauga Cos");
+		setColor(btnNewButton_1);
+		panel_2.add(btnNewButton_1);
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cos.adaugaCarte(selected(nr));
+				cos.detaliiCos();
+			}
+
+		});
+
 		JButton btnNewButton_5 = new JButton("Detalii Carte");
+		setColor(btnNewButton_5);
 		panel_2.add(btnNewButton_5);
 		btnNewButton_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
 				try {
-					new Detalii(carte);
+					new Detalii(selected(nr));
 
 				} catch (Exception f) {
 					f.printStackTrace();
@@ -159,8 +223,8 @@ public class MainFrame {
 		panel_1.add(panel_6);
 
 		JButton btnNewButton_3 = new JButton("Finalizare Comanda");
+		setColor(btnNewButton_3);
 		panel_6.add(btnNewButton_3);
-
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -170,7 +234,6 @@ public class MainFrame {
 				} catch (Exception f) {
 					f.printStackTrace();
 				}
-
 			}
 
 		});
@@ -186,14 +249,22 @@ public class MainFrame {
 		JPanel panel_5 = new JPanel();
 		panel_1.add(panel_5);
 		panel_5.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-
+		setColor(panel_1);
+		setColor(panel_2);
+		setColor(panel_3);
+		setColor(panel_4);
+		setColor(panel_5);
+		panel_7.setBackground(new Color(34, 34, 51));
+		setColor(panel_6);
 		JButton btnNewButton_4 = new JButton("Adauga Recenzie");
+		setColor(btnNewButton_4);
 		panel_5.add(btnNewButton_4);
 		frame.setVisible(true);
 	}
 
 	public MainFrame(Client client) {
 		initialize();
+
 	}
 
 }

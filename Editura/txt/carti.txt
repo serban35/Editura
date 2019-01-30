@@ -1,4 +1,9 @@
-Igor Bergler; Biblia pierduta; 2015; 549; 73; pics\\BibliaPierduta.jpg
+Igor Bergler; Biblia pierduta; 2015; 549; 30; pics\\BibliaPierduta.jpg
 Mark Twain; Jurnalul lui Adam si Evei; 2016; 345; 25; pics\\Jurnalul.jpg
 Oscar Wilde; Portretul lui Dorian Grey; 1969; 406; 15; pics\\Portretul.jpg
 Charles Dickens; Marile sperante (vol 2); 1968; 391; 10; pics\\MarileSperante.jpg
+Stephenie Meyer; Chismista; 2016; 606; 40; pics\\Chimista.jpg
+Gaston Leroux; Fantoma de la opera; 2016; 319; 30; pics\\Fantoma.jpg
+Jojo Moyes; Inainte sa te cunosc; 2016; 398; 35; pics\\Inainte.jpg
+Marin Preda; Viata ca o prada; 2015; 300; 25; pics\\Viata.jpg
+Marin Preda; Delirul; 2009; 495; 25; pics\\Delirul.jpg

@@ -6,7 +6,7 @@ import java.io.IOException;
 public class Client {
 	private String nume, prenume, adresaPostala, adresaEmail, username, parola, nrTel;
 
-	public Client(String nume, String prenume, String adresaPostala, String adresaEmail, String username, String parola,
+	public Client(String username, String parola, String adresaPostala, String adresaEmail, String nume, String prenume,
 			String nrTel) {
 		this.nume = nume;
 		this.prenume = prenume;

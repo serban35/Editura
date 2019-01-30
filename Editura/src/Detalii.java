@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 
@@ -26,15 +27,29 @@ public class Detalii extends JDialog {
 		JPanel panel_1 = new JPanel();
 		panel.add(panel_1);
 		JTextArea textArea = new JTextArea();
+		textArea.setForeground(new Color(170, 204, 255));
+		textArea.setBackground(new Color(34, 34, 51));
 		panel_1.add(textArea);
-		textArea.setFont(new Font("Georgia", Font.BOLD, 25));
+		panel_1.setBackground(new Color(34, 34, 51));
+		textArea.setFont(new Font("Script MT Bold", Font.BOLD, 25));
 		textArea.setLineWrap(true);
 		textArea.setWrapStyleWord(true);
 		textArea.setEditable(false);
-		textArea.setRows(15);
-		textArea.setColumns(15);
-		textArea.append("Titlu:" + carte.getTitlu() + "\nAutor: " + carte.getNumeAutor() + "\nNr pagini: "
-				+ carte.getNrPag() + "\nPret: " + carte.getPret());
+		textArea.setRows(8);
+		textArea.setColumns(20);
+		textArea.append("Titlu: " + carte.getTitlu() + "\nAutor: " + carte.getNumeAutor() + "\nNr pagini: "
+				+ carte.getNrPag() + "\nPret: " + carte.getPret() + " Lei");
+
+		JTextArea textArea_1 = new JTextArea();
+		textArea_1.setFont(new Font("Script MT Bold", Font.PLAIN, 13));
+		textArea_1.setForeground(new Color(170, 204, 255));
+		textArea_1.setBackground(new Color(34, 34, 51));
+		textArea_1.setLineWrap(true);
+		textArea_1.setWrapStyleWord(true);
+		textArea_1.setRows(17);
+		textArea_1.setColumns(40);
+		textArea_1.setEditable(false);
+		panel_1.add(textArea_1);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setVisible(true);
 	}
