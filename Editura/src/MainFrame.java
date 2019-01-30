@@ -12,11 +12,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -65,22 +67,16 @@ public class MainFrame {
 
 	}
 
-	public void filterModel(DefaultListModel<String> model, String filter) {
-		for (String s : nume) {
-			if (!s.startsWith(filter)) {
-				if (model.contains(s)) {
-					model.removeElement(s);
-				}
-			} else {
-				if (!model.contains(s)) {
-					model.addElement(s);
-				}
+	public void cauta(String cuvant) {
+		for (Carte c : carti) {
+			if (c.toString().toLowerCase().contains(cuvant)) {
+				model.addElement(c.toString());
 			}
 		}
 	}
 
 	public Carte selected(int nr) {
-		System.out.println(nr);
+		// System.out.println(nr);
 		for (Carte tmp : carti) {
 			if (carti.indexOf(tmp) == nr) {
 				return tmp;
@@ -115,7 +111,7 @@ public class MainFrame {
 		}
 	}
 
-	private void initialize() {
+	private void initialize(Client client) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 800, 500);
 
@@ -156,21 +152,16 @@ public class MainFrame {
 		setNR();
 
 		populeazaLibrarie();
-		// filterModel(model,txtSearch.getText());
 
-//
-//		JRadioButton rdbtnNewRadioButton = new JRadioButton("Nume Autor");
-//		panel_3.add(rdbtnNewRadioButton);
-//
-//		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("Titlu Carte");
-//		panel_3.add(rdbtnNewRadioButton_1);
+		JRadioButton rdbtnNewRadioButton = new JRadioButton("Nume Autor");
+		panel_3.add(rdbtnNewRadioButton);
 
-//		ButtonGroup search = new ButtonGroup();
-//		search.add(rdbtnNewRadioButton);
-//		search.add(rdbtnNewRadioButton_1);
+		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("Titlu Carte");
+		panel_3.add(rdbtnNewRadioButton_1);
 
-//		Border searchBorder = BorderFactory.createTitledBorder("Criterii Cautare");
-//		panel_3.setBorder(searchBorder);
+		ButtonGroup search = new ButtonGroup();
+		search.add(rdbtnNewRadioButton);
+		search.add(rdbtnNewRadioButton_1);
 
 		JPanel panel_4 = new JPanel();
 		FlowLayout flowLayout_1 = (FlowLayout) panel_4.getLayout();
@@ -182,9 +173,8 @@ public class MainFrame {
 		panel_4.add(btnNewButton);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				txtSearch.selectAll();
-				filterModel(model, txtSearch.getText());
-
+				model.removeAllElements();
+				cauta(txtSearch.getText());
 			}
 
 		});
@@ -229,7 +219,7 @@ public class MainFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				try {
-					new Cos(cos);
+					new Cos(cos, client);
 
 				} catch (Exception f) {
 					f.printStackTrace();
@@ -259,11 +249,19 @@ public class MainFrame {
 		JButton btnNewButton_4 = new JButton("Adauga Recenzie");
 		setColor(btnNewButton_4);
 		panel_5.add(btnNewButton_4);
+		btnNewButton_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				selected(nr).setRecenzii(textArea_1.getText());
+				// System.out.println(textArea_1.getText());
+				selected(nr).salveazaRecenzii(selected(nr));
+			}
+
+		});
 		frame.setVisible(true);
 	}
 
 	public MainFrame(Client client) {
-		initialize();
+		initialize(client);
 
 	}
 

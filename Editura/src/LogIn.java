@@ -51,8 +51,8 @@ public class LogIn extends JDialog {
 		}
 
 		for (Client c : listaClient) {
-			System.out.println(c.getUsername() + c.getParola());
-			System.out.println(user + " " + pass);
+			// System.out.println(c.getUsername() + c.getParola());
+			// System.out.println(user + " " + pass);
 			if (user.equals(c.getUsername()) && pass.equals(c.getParola())) {
 				setVisible(false);
 				EventQueue.invokeLater(new Runnable() {
@@ -135,7 +135,7 @@ public class LogIn extends JDialog {
 					Client client = new Client(tablou[0], tablou[1], tablou[2], tablou[3], tablou[4], tablou[5],
 							tablou[6]);
 					listaClient.add(client);
-					System.out.println(client.toString());
+					// System.out.println(client.toString());
 				}
 
 			}

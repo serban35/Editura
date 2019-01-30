@@ -1,7 +1,12 @@
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Carte {
-	private String numeAutor, titlu, anulAparitiei, nrPag, pret, perLiv = "sunati pentru mai multe detalii", picPath;
+	private String numeAutor, titlu, anulAparitiei, nrPag, pret, perLiv = "24h(curier rapid)/ 3 zile(posta romana)",
+			picPath;
 	private ArrayList<String> recenzii = new ArrayList<String>();
 
 	public Carte(String numeAutor, String titlu, String anulAparitiei, String nrPag, String pret, String picPath) {
@@ -20,6 +25,10 @@ public class Carte {
 
 	public String getPret() {
 		return pret;
+	}
+
+	public String getPerLiv() {
+		return perLiv;
 	}
 
 	@Override
@@ -47,4 +56,20 @@ public class Carte {
 		return picPath;
 	}
 
+	public void salveazaRecenzii(Carte c) {
+		File file = new File("txt\\" + c.getTitlu() + ".txt");
+		try {
+			FileWriter fileWriter = new FileWriter(file, true);
+			BufferedWriter bufferFileWriter = new BufferedWriter(fileWriter);
+			for (String r : recenzii)
+				fileWriter.append(r + "\n");
+			bufferFileWriter.close();
+		} catch (IOException e) {
+
+			e.printStackTrace();
+			System.out.println("An I/O Error Occurred");
+
+		}
+
+	}
 }
